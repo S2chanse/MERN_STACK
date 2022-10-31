@@ -1,17 +1,29 @@
-import logo from "./logo.svg";
-import "./App.css";
-import Test from "./Test";
+import React, { useState } from 'react';
+import './App.css';
+import Heading from './Component/Heading';
+import { Route, Routes } from 'react-router-dom';
+import List from './Component/List';
+import Upload from './Component/Upload';
 
 function App() {
+  const [contentList, setContentList] = useState([]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Test />
-      </header>
+    <div>
+      <Heading />
+      <Routes>
+        <Route
+          path='/list'
+          element={
+            <List contentList={contentList} setContentList={setContentList} />
+          }
+        />
+        <Route
+          path='/upload'
+          element={
+            <Upload contentList={contentList} setContentList={setContentList} />
+          }
+        />
+      </Routes>
     </div>
   );
 }

@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function Test() {
+export default function Upload(props) {
   const [contents, setContents] = useState('');
-  const [contentList, setContentList] = useState([]);
+  useEffect(() => {
+    //Component mount 나타날때
+    console.log(contents);
+
+    //조건
+    //state값이 들어간다.
+  }, [contents]);
   /*
   1.첫번째 인자 : 변수의 이름
   2.두번째 인자 : 인자의 상태 변화 
@@ -13,11 +19,9 @@ export default function Test() {
   */
 
   const onSubmit = () => {
-    console.log(contents);
-    let arr = [...contentList];
+    let arr = [...props.contentList];
     arr.push(contents);
-    setContentList([...arr]);
-    console.log(arr);
+    props.setContentList([...arr]);
   };
   return (
     <div
@@ -33,19 +37,6 @@ export default function Test() {
         value={contents}
         onChange={(event) => setContents(event.currentTarget.value)}
       />
-      {contentList.map((content, idx) => {
-        return (
-          <div
-            key={idx}
-            style={{
-              width: '100%',
-              marginLeft: '1rem',
-            }}
-          >
-            <h2>{content}</h2>
-          </div>
-        );
-      })}
       <button style={{ marginTop: '1rem' }} onClick={() => onSubmit()}>
         제출
       </button>
