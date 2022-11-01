@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Button } from 'react-bootstrap';
 
 export default function List(props) {
   const [text, setText] = useState('');
@@ -12,7 +13,8 @@ export default function List(props) {
       .then((response) => {
         alert('연결성공');
         let data = response.data;
-        setText(data.txt);
+        console.log(data);
+        setText(data.content);
       })
       .catch((error) => {
         console.log(error);
@@ -36,6 +38,7 @@ export default function List(props) {
           </div>
         );
       })}
+      <Button>Test</Button>
     </div>
   );
 }

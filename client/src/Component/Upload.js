@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { Button } from 'react-bootstrap';
 export default function Upload(props) {
   const [contents, setContents] = useState('');
   useEffect(() => {
@@ -37,9 +37,7 @@ export default function Upload(props) {
         value={contents}
         onChange={(event) => setContents(event.currentTarget.value)}
       />
-      <button style={{ marginTop: '1rem' }} onClick={() => onSubmit()}>
-        제출
-      </button>
+      <Button onClick={() => onSubmit()}>제출</Button>
     </div>
   );
 }
