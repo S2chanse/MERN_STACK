@@ -4,6 +4,7 @@ import Heading from "./Component/Heading";
 import { Route, Routes } from "react-router-dom";
 import List from "./Component/Post/List";
 import Upload from "./Component/Post/Upload";
+import Detail from "./Component/Post/Detail";
 
 function App() {
   const [contentList, setContentList] = useState([]);
@@ -23,6 +24,7 @@ function App() {
             <Upload contentList={contentList} setContentList={setContentList} />
           }
         />
+        <Route path="/post/:postNum" element={<Detail />} />
       </Routes>
     </div>
   );

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const app = express();
 const port = 5000;
 const { Post } = require("./Model/Post.js");
+const { Counter } = require("./Model/Counter.js");
 
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(express.json());
@@ -28,11 +29,20 @@ app.get("/", (req, res) => {
 
 app.post("/api/post/submit", async (req, res) => {
   let temp = req.body;
-  const communityPost = new Post(temp);
-  communityPost
-    .save()
-    .then(() => {
-      res.status(200).json({ success: true });
+  Counter.findOne({ name: "counter" })
+    .exec()
+    .then((counter) => {
+      console.log(counter);
+      temp.postNum = counter.postNum;
+      const communityPost = new Post(temp);
+      communityPost.save().then(() => {
+        //Counter의 postNum을 증가
+        Counter.updateOne({ name: "counter" }, { $inc: { postNum: 1 } }).then(
+          () => {
+            res.status(200).json({ success: true });
+          }
+        );
+      });
     })
     .catch((err) => {
       res.status(400).json({ success: false });
@@ -44,6 +54,16 @@ app.post("/api/post/list", async (req, res) => {
     .exec()
     .then((doc) => {
       res.status(200).json({ success: true, postList: doc });
+    })
+    .catch((err) => res.status(400));
+});
+
+app.post("/api/post/detail", async (req, res) => {
+  Post.findOne({ postNum: Number(req.body.postNum) })
+    .exec()
+    .then((doc) => {
+      console.log(doc);
+      res.status(200).json({ success: true, post: doc });
     })
     .catch((err) => res.status(400));
 });
