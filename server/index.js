@@ -26,12 +26,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-app.post('/api/test', async (req, res) => {
-  console.log('요청완료');
-  const reqModel = new Post({ title: 'Come', content: 'It is Contents' });
-  reqModel.save().then(() => {
-    res.status(200).json(reqModel);
-  });
+app.post('/api/post/submit', async (req, res) => {
+  let temp = req.body;
+  console.log(temp);
+  res.status(200).json({ success: true });
 });
 
 app.get('/*', (req, res) => {

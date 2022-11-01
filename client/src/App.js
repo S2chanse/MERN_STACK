@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import Heading from './Component/Heading';
 import { Route, Routes } from 'react-router-dom';
-import List from './Component/List';
+import List from './Component/Post/List';
 import Upload from './Component/Upload';
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <Heading />
       <Routes>
         <Route
-          path='/list'
+          path='/'
           element={
             <List contentList={contentList} setContentList={setContentList} />
           }

@@ -18,8 +18,7 @@ export default function () {
           width: '50%',
         }}
       >
-        <Link to='/'>Home</Link>
-        <Link to='/list'>List</Link>
+        <Link to='/list'>Home</Link>
         <Link to='/upload'>Upload</Link>
       </div>
     </div>
