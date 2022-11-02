@@ -1,26 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Container, Navbar, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 export default function Heading() {
+  const styleObj = {
+    color: 'white',
+    textDecoration: 'none',
+    marginRight: '10px',
+  };
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "100%",
-      }}
-    >
-      <h1>Hello, React!!</h1>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "50%",
-        }}
-      >
-        <Link to="/">Home</Link>
-        <Link to="/upload">Upload</Link>
-      </div>
-    </div>
+    <Navbar bg='dark' expand='lg' variant='dark'>
+      <Container>
+        <Navbar.Brand href='#home'>React-Community</Navbar.Brand>
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav className='me-auto'>
+            <Link to='/' style={styleObj}>
+              Home
+            </Link>
+            <Link to='/upload' style={styleObj}>
+              Upload
+            </Link>
+            <Link to='/login' style={styleObj}>
+              Login
+            </Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
