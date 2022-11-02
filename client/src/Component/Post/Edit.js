@@ -2,11 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { UploadDiv, UploadForm, UploadButtonDiv } from '../../Styled/UploadCSS';
+import ImgUpload from './ImgUpload';
 
 export default function Edit() {
   let params = useParams();
   const naviagte = useNavigate();
   const [contentInfo, setContentInfo] = useState({});
+  const [image, setImage] = useState('');
 
   useEffect(() => {
     axios
@@ -14,6 +16,7 @@ export default function Edit() {
       .then((res) => {
         console.log(res);
         setContentInfo(res.data.post);
+        setImage(res.data.post.image);
       })
       .catch((err) => {
         console.error(err);
@@ -27,7 +30,8 @@ export default function Edit() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(contentInfo);
+      contentInfo.image = image;
+
       const res = await axios.post('/api/post/update', contentInfo);
       console.log(res.data.post);
       naviagte(`/post/${res.data.post.postNum}`);
@@ -50,6 +54,7 @@ export default function Edit() {
             })
           }
         />
+        <ImgUpload setImage={setImage} />
         <label htmlFor='content'>내용</label>
         <textarea
           id='content'

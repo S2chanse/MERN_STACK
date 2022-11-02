@@ -7,6 +7,7 @@ const port = 5000;
 app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/image', express.static('./image'));
 
 app.use('/api/post', require('./Router/PostRouter'));
 app.listen(port, () => {

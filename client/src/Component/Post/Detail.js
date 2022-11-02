@@ -41,6 +41,13 @@ export default function Detail() {
       {flag ? (
         <div>
           <h1>{postInfo.title}</h1>
+          {postInfo.image ? (
+            <img
+              src={`http://localhost:5000/${postInfo.image}`}
+              alt='이미지'
+              style={{ width: '100px', height: '100px' }}
+            />
+          ) : null}
           <h3>{postInfo.content}</h3>
           <Link to={`/edit/${postInfo.postNum}`}>
             <button> 수정 </button>
