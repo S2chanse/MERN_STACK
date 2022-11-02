@@ -12,7 +12,7 @@ import Register from './Component/User/Register';
 function App() {
   const [contentList, setContentList] = useState([]);
   return (
-    <div>
+    <>
       <Heading />
       <Routes>
         <Route
@@ -32,7 +32,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
       </Routes>
-    </div>
+    </>
   );
 }
 
