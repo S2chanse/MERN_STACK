@@ -10,7 +10,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/image', express.static('./image'));
 
+//Controller Mapping 최상단
 app.use('/api/post', require('./Router/PostRouter'));
+app.use('/api/user', require('./Router/UserRouter'));
 app.listen(port, () => {
   mongoose
     .connect(config.mongoURI)
