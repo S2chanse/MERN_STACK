@@ -15,10 +15,9 @@ import Register from './Component/User/Register';
 function App() {
   const [contentList, setContentList] = useState([]);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged((userInfo) => {
-      //console.log('user', userInfo);
       if (userInfo != null) {
         const loginUserInfo = userInfo.multiFactor.user;
         dispatch(
@@ -26,6 +25,7 @@ function App() {
             displayName: loginUserInfo.displayName,
             uid: loginUserInfo.uid,
             email: loginUserInfo.email,
+            accessToken: loginUserInfo.accessToken,
           })
         );
       } else {

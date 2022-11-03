@@ -19,6 +19,7 @@ export default function List({ contentList, setContentList }) {
     <div>
       <h1>List</h1>
       {contentList.map((content, idx) => {
+        console.log(content);
         return (
           <Link to={`/post/${content.postNum}`} key={idx}>
             <div
