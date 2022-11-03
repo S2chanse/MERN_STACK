@@ -1,10 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginDiv from '../../Styled/UserCSS';
+import firebase from '../../FireBase';
+
 export default function () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+
   const navigate = useNavigate();
+
+  const signInFnc = async (e) => {
+    e.preventDefault();
+    if (!(email && password)) {
+      alert('모든 값을 채워주세요');
+      return;
+    }
+    try {
+      const userObj = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+      console.log(userObj.user.multiFactor.user);
+    } catch (error) {
+      switch (error.code) {
+        case 'auth/user-not-found':
+          setErrMsg('존재하지 않는 이메일입니다.');
+          break;
+        case 'auth/wrong-password':
+          setErrMsg('비밀번호가 맞지 않습니다.');
+          break;
+        default:
+          setErrMsg('로그인에 실패했습니다.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    setErrMsg('');
+  }, [email, password]);
+
   return (
     <LoginDiv>
       <form>
@@ -20,7 +54,8 @@ export default function () {
           value={password}
           onChange={(e) => setPassword(e.currentTarget.value)}
         />
-        <button>로그인</button>
+        {errMsg !== '' ? <p style={{ color: 'red' }}>{errMsg}</p> : null}
+        <button onClick={(e) => signInFnc(e)}>로그인</button>
         <button
           onClick={(e) => {
             e.preventDefault();
