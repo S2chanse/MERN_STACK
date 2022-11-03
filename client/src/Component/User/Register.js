@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoginDiv from '../../Styled/UserCSS';
 import firebase from '../../FireBase';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function () {
   const [name, setName] = useState('');
@@ -10,13 +11,29 @@ export default function () {
   const [password, setPassword] = useState('');
   const [pwConfirm, setPwConfirm] = useState('');
   const [flag, setFlag] = useState(false);
+  const [nameCheck, setNameCheck] = useState(false);
+  const [nameChkMsg, setNameChkMsg] = useState('');
+  const user = useSelector((state) => state.user);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('회원가입', user);
+    if (user.accessToken) {
+      alert('로그인한 사용자는 접근 불가능합니다.');
+      navigator('/');
+    }
+  }, []);
+
   const RegisterFnc = async (e) => {
     setFlag(true);
     e.preventDefault();
     if (!(name || email || password || pwConfirm)) {
       alert('모든 값을 채워주세요.');
+      return;
+    }
+    if (!nameCheck) {
+      alert('닉네임중복검사를 진행해 주세요.');
       return;
     }
     if (password.length < 9) {
@@ -52,14 +69,31 @@ export default function () {
       console.error(error);
     }
   };
+
+  const NameCheckFnc = async (e) => {
+    e.preventDefault();
+    const res = await axios.post('/api/user/nickNameCheck', { nickName: name });
+    if (res.data.success && res.data.check) {
+      alert('닉네임이 사용가능합니다.');
+      setNameCheck(true);
+      setNameChkMsg('사용 가능');
+    } else {
+      alert('해당 닉네임은 존재합니다.');
+      setNameChkMsg('사용 불가');
+    }
+  };
+
   return (
     <LoginDiv>
       <form>
         <input
           type='name'
-          placeholder='이름'
+          placeholder='닉네임'
           onChange={(e) => setName(e.currentTarget.value)}
+          disabled={nameCheck}
         />
+        <p>{nameChkMsg}</p>
+        <button onClick={(e) => NameCheckFnc(e)}>닉네임 중복검사</button>
         <input
           type='email'
           placeholder='이메일'

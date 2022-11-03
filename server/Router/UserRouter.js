@@ -25,4 +25,20 @@ router.post('/register', async (req, res) => {
   }
 });
 
+router.post('/nickNameCheck', async (req, res) => {
+  try {
+    const result = await User.findOne({
+      displayName: req.body.nickName,
+    }).exec();
+    let nickNameCheck = false;
+    if (!result) {
+      nickNameCheck = true;
+    }
+    res.status(200).json({ success: true, check: nickNameCheck });
+  } catch (error) {
+    console.error(error);
+    res.status(400);
+  }
+});
+
 module.exports = router;

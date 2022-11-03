@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginDiv from '../../Styled/UserCSS';
 import firebase from '../../FireBase';
+import { useSelector } from 'react-redux';
 
 export default function () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
-
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const signInFnc = async (e) => {

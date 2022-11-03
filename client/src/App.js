@@ -15,7 +15,7 @@ import Register from './Component/User/Register';
 function App() {
   const [contentList, setContentList] = useState([]);
   const dispatch = useDispatch();
-
+  const user = useSelector((state) => state.user);
   useEffect(() => {
     firebase.auth().onAuthStateChanged((userInfo) => {
       if (userInfo != null) {
@@ -28,6 +28,7 @@ function App() {
             accessToken: loginUserInfo.accessToken,
           })
         );
+        console.log(user);
       } else {
         dispatch(clearUser());
       }
