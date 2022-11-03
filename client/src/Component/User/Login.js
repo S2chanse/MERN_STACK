@@ -17,10 +17,8 @@ export default function () {
       return;
     }
     try {
-      const userObj = await firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password);
-      console.log(userObj.user.multiFactor.user);
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      navigate('/');
     } catch (error) {
       switch (error.code) {
         case 'auth/user-not-found':
