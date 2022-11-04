@@ -13,6 +13,7 @@ app.use('/image', express.static('./image'));
 //Controller Mapping 최상단
 app.use('/api/post', require('./Router/PostRouter'));
 app.use('/api/user', require('./Router/UserRouter'));
+app.use('/api/reple', require('./Router/RepleRouter'));
 app.listen(port, () => {
   mongoose
     .connect(config.mongoURI)

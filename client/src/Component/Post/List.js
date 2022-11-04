@@ -21,7 +21,11 @@ export default function List({ contentList, setContentList }) {
       {contentList.map((content, idx) => {
         console.log(content);
         return (
-          <Link to={`/post/${content.postNum}`} key={idx}>
+          <Link
+            to={`/post/${content.postNum}`}
+            key={idx}
+            style={{ textDecoration: 'none', color: 'black' }}
+          >
             <div
               id={content.postNum}
               style={{
@@ -30,6 +34,7 @@ export default function List({ contentList, setContentList }) {
               }}
             >
               <h2>{content.title}</h2>
+              <h5>{content.author.displayName}</h5>
               <h3>{content.content}</h3>
               <hr />
             </div>

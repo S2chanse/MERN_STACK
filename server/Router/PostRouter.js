@@ -19,7 +19,6 @@ router.post('/submit', async (req, res) => {
       User.findOne({ uid: req.body.uid })
         .exec()
         .then((userInfo) => {
-          console.log(userInfo);
           temp.author = userInfo._id;
           const communityPost = new Post(temp);
           communityPost.save().then(() => {
@@ -48,7 +47,6 @@ router.post('/update', async (req, res) => {
       Post.findOne({ postNum: Number(temp.postNum) })
         .exec()
         .then((doc) => {
-          // console.log(doc);
           res.status(200).json({ success: true, post: doc });
         });
     })
@@ -68,7 +66,6 @@ router.post('/list', async (req, res) => {
 });
 
 router.post('/detail', async (req, res) => {
-  console.log(req.body);
   Post.findOne({ postNum: Number(req.body.postNum) })
     .populate('author')
     .exec()
@@ -105,7 +102,6 @@ router.post('/img/upload', (req, res) => {
     if (err) {
       res.status(400);
     } else {
-      console.log(res.req.file);
       res.status(200).json({ success: true, filePath: res.req.file.path });
     }
   });

@@ -21,7 +21,7 @@ export default function () {
     console.log('회원가입', user);
     if (user.accessToken) {
       alert('로그인한 사용자는 접근 불가능합니다.');
-      navigator('/');
+      navigate('/');
     }
   }, []);
 

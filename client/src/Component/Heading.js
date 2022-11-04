@@ -28,6 +28,9 @@ export default function Heading() {
             <Link to='/upload' style={styleObj}>
               Upload
             </Link>
+            <Link to='/register' style={styleObj}>
+              등록
+            </Link>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className='justify-content-end'>
