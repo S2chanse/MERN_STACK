@@ -1,18 +1,17 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import axios from "axios";
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 export default function RepleUpload({ postInfo }) {
   const user = useSelector((state) => state.user);
-  const [reple, setReple] = useState('');
-  const navigate = useNavigate();
+  const [reple, setReple] = useState("");
+
   const submitHandler = (e) => {
     e.preventDefault();
 
     if (!reple) {
-      alert('댓글을 써주세요');
+      alert("댓글을 써주세요");
       return;
     }
     let body = {
@@ -21,21 +20,21 @@ export default function RepleUpload({ postInfo }) {
       reple: reple,
     };
 
-    axios.post('/api/reple/submit', body).then((res) => {
+    axios.post("/api/reple/submit", body).then((res) => {
       if (res.data.success) {
-        alert('댓글을 저장했습니다.');
-        setReple('');
-        navigate(`/post/${postInfo.postNum}`);
+        alert("댓글을 저장했습니다.");
+        setReple("");
+        window.location.reload();
       }
     });
   };
   return (
     <div>
       <form>
-        <label htmlFor='content'>내용</label>
+        <label htmlFor="content">내용</label>
         <textarea
-          id='content'
-          type='text'
+          id="content"
+          type="text"
           value={reple}
           onChange={(event) => setReple(event.currentTarget.value)}
         />
