@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import Heading from './Component/Heading';
-import { Route, Routes } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { loginUser, clearUser } from './Reducer/userSlice';
-import firebase from './FireBase';
-import List from './Component/Post/List';
-import Upload from './Component/Post/Upload';
-import PostArea from './Component/Post/PostArea';
-import Edit from './Component/Post/Edit';
-import Login from './Component/User/Login';
-import Register from './Component/User/Register';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import Heading from "./Component/Heading";
+import { Route, Routes } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser, clearUser } from "./Reducer/userSlice";
+import firebase from "./FireBase";
+import List from "./Component/Post/List";
+import Upload from "./Component/Post/Upload";
+import PostArea from "./Component/Post/PostArea";
+import Edit from "./Component/Post/Edit";
+import Login from "./Component/User/Login";
+import Register from "./Component/User/Register";
+import MyPage from "./Component/User/MyPage";
 
 function App() {
   const [contentList, setContentList] = useState([]);
@@ -26,8 +27,10 @@ function App() {
             uid: loginUserInfo.uid,
             email: loginUserInfo.email,
             accessToken: loginUserInfo.accessToken,
+            photoURL: loginUserInfo.photoURL,
           })
         );
+        console.log(userInfo);
       } else {
         dispatch(clearUser());
       }
@@ -39,21 +42,28 @@ function App() {
       <Heading />
       <Routes>
         <Route
-          path='/'
+          path="/"
           element={
             <List contentList={contentList} setContentList={setContentList} />
           }
         />
+        {/**
+         * Post Reple
+         */}
         <Route
-          path='/upload'
+          path="/upload"
           element={
             <Upload contentList={contentList} setContentList={setContentList} />
           }
         />
-        <Route path='/post/:postNum' element={<PostArea />} />
-        <Route path='/edit/:postNum' element={<Edit />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
+        <Route path="/post/:postNum" element={<PostArea />} />
+        <Route path="/edit/:postNum" element={<Edit />} />
+        {/**
+         * 사용자 관련
+         */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/myPage/:uid" element={<MyPage />} />
       </Routes>
     </>
   );

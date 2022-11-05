@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import Avatar from "react-avatar";
 
 export default function List({ contentList, setContentList }) {
   useEffect(() => {
     axios
-      .post('/api/post/list')
+      .post("/api/post/list")
       .then((res) => {
         if (res.data.success) {
           let postList = res.data.postList;
@@ -19,22 +20,28 @@ export default function List({ contentList, setContentList }) {
     <div>
       <h1>List</h1>
       {contentList.map((content, idx) => {
-        console.log(content);
         return (
           <Link
             to={`/post/${content.postNum}`}
             key={idx}
-            style={{ textDecoration: 'none', color: 'black' }}
+            style={{ textDecoration: "none", color: "black" }}
           >
             <div
               id={content.postNum}
               style={{
-                width: '100%',
-                marginLeft: '1rem',
+                width: "100%",
+                marginLeft: "1rem",
               }}
             >
               <h2>{content.title}</h2>
-              <h5>{content.author.displayName}</h5>
+              <h5>
+                <Avatar
+                  size="40"
+                  round={true}
+                  src="http://www.gravatar.com/avatar/a16a38cdfe8b2cbd38e8a56ab93238d3"
+                />
+                {content.author.displayName}
+              </h5>
               <h3>{content.content}</h3>
               <hr />
             </div>

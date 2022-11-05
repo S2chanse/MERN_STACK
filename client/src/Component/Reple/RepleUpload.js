@@ -30,16 +30,18 @@ export default function RepleUpload({ postInfo }) {
   };
   return (
     <div>
-      <form>
-        <label htmlFor="content">내용</label>
-        <textarea
-          id="content"
-          type="text"
-          value={reple}
-          onChange={(event) => setReple(event.currentTarget.value)}
-        />
-        <Button onClick={(e) => submitHandler(e)}>전송</Button>
-      </form>
+      {user.accessToken && (
+        <form>
+          <label htmlFor="content">내용</label>
+          <textarea
+            id="content"
+            type="text"
+            value={reple}
+            onChange={(event) => setReple(event.currentTarget.value)}
+          />
+          <Button onClick={(e) => submitHandler(e)}>전송</Button>
+        </form>
+      )}
     </div>
   );
 }

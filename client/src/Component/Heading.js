@@ -36,15 +36,31 @@ export default function Heading() {
               Login
             </Link>
           ) : (
-            <Navbar.Text
-              style={{
-                color: "#ffffff",
-                cursor: "pointer",
-              }}
-              onClick={() => LogoutHandler()}
-            >
-              Logout
-            </Navbar.Text>
+            <>
+              <Navbar.Text
+                style={{
+                  color: "#ffffff",
+                  cursor: "pointer",
+                }}
+                onClick={() => LogoutHandler()}
+              >
+                Logout
+              </Navbar.Text>
+              <Navbar.Text
+                style={{
+                  color: "#ffffff",
+                  cursor: "pointer",
+                  marginRight: "10px",
+                }}
+                onClick={() => LogoutHandler()}
+              ></Navbar.Text>
+              <br />
+              <Navbar.Text>
+                <Link to={`/myPage/${user.uid}`} style={styleObj}>
+                  My Page
+                </Link>
+              </Navbar.Text>
+            </>
           )}
         </Navbar.Collapse>
       </Container>

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
+import Avatar from "react-avatar";
 export default function RepleContent({ reple }) {
   const [flag, setFlag] = useState(false);
   const [editFlag, setEditFlag] = useState(false);
@@ -58,7 +59,14 @@ export default function RepleContent({ reple }) {
   }
   return (
     <div>
-      <h6>글쓴이 : {reple.author.displayName}</h6>
+      <h6>
+        <Avatar
+          size="20"
+          round={true}
+          src="http://www.gravatar.com/avatar/a16a38cdfe8b2cbd38e8a56ab93238d3"
+        />{" "}
+        {reple.author.displayName}
+      </h6>
       {user.uid === reple.author.uid && (
         <span ref={ref} onClick={() => setFlag(!flag)}>
           ...
