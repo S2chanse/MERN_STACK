@@ -1,21 +1,18 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { Link } from "react-router-dom";
 import Avatar from "react-avatar";
+import { useSelector } from "react-redux";
+import moment from "moment";
+import "moment/locale/ko";
 
-export default function List({ contentList, setContentList }) {
-  useEffect(() => {
-    axios
-      .post("/api/post/list")
-      .then((res) => {
-        if (res.data.success) {
-          let postList = res.data.postList;
-          setContentList(postList);
-        }
-      })
-      .catch((err) => console.log(err));
-  }, []);
+export default function List({ contentList }) {
+  const user = useSelector((state) => state.user);
 
+  const setTimeWhat = (a, b) => {
+    return a === b
+      ? moment(a).format("YYYY-MM-DD hh:mm") + "(New)"
+      : moment(b).format("YYYY-MM-DD hh:mm") + "(수정됨)";
+  };
   return (
     <div>
       <h1>List</h1>
@@ -25,6 +22,7 @@ export default function List({ contentList, setContentList }) {
             to={`/post/${content.postNum}`}
             key={idx}
             style={{ textDecoration: "none", color: "black" }}
+            settimewhat={setTimeWhat}
           >
             <div
               id={content.postNum}
@@ -38,11 +36,12 @@ export default function List({ contentList, setContentList }) {
                 <Avatar
                   size="40"
                   round={true}
-                  src="http://www.gravatar.com/avatar/a16a38cdfe8b2cbd38e8a56ab93238d3"
+                  src={`http://localhost:5000/${user.photoURL}`}
                 />
                 {content.author.displayName}
               </h5>
               <h3>{content.content}</h3>
+              <p>{setTimeWhat(content.createdAt, content.updatedAt)}</p>
               <hr />
             </div>
           </Link>

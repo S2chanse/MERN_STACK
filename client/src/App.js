@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Heading from "./Component/Heading";
 import { Route, Routes } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser, clearUser } from "./Reducer/userSlice";
 import firebase from "./FireBase";
 import List from "./Component/Post/List";
@@ -12,11 +12,10 @@ import Edit from "./Component/Post/Edit";
 import Login from "./Component/User/Login";
 import Register from "./Component/User/Register";
 import MyPage from "./Component/User/MyPage";
+import Main from "./Component/Post/Main";
 
 function App() {
-  const [contentList, setContentList] = useState([]);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
   useEffect(() => {
     firebase.auth().onAuthStateChanged((userInfo) => {
       if (userInfo != null) {
@@ -41,21 +40,11 @@ function App() {
     <>
       <Heading />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <List contentList={contentList} setContentList={setContentList} />
-          }
-        />
+        <Route path="/" element={<Main />} />
         {/**
          * Post Reple
          */}
-        <Route
-          path="/upload"
-          element={
-            <Upload contentList={contentList} setContentList={setContentList} />
-          }
-        />
+        <Route path="/upload" element={<Upload />} />
         <Route path="/post/:postNum" element={<PostArea />} />
         <Route path="/edit/:postNum" element={<Edit />} />
         {/**

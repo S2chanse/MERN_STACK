@@ -3,6 +3,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Avatar from "react-avatar";
 import axios from "axios";
+import moment from "moment";
+import "moment/locale/ko";
 
 export default function Detail({ postInfo }) {
   let params = useParams();
@@ -22,14 +24,20 @@ export default function Detail({ postInfo }) {
       }
     }
   };
+  const setTimeWhat = (a, b) => {
+    return a === b
+      ? moment(a).format("YYYY-MM-DD hh:mm") + "(New)"
+      : moment(b).format("YYYY-MM-DD hh:mm") + "(수정됨)";
+  };
   return (
     <div>
       <h1>{postInfo.title}</h1>
+      <p>{setTimeWhat(postInfo.createdAt, postInfo.updatedAt)}</p>
       <p>
         <Avatar
           size="40"
           round={true}
-          src="http://www.gravatar.com/avatar/a16a38cdfe8b2cbd38e8a56ab93238d3"
+          src={`http://localhost:5000/${user.photoURL}`}
         />
         {postInfo.author.displayName}
       </p>

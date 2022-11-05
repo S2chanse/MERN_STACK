@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
 import Avatar from "react-avatar";
+import moment from "moment";
+import "moment/locale/ko";
+
 export default function RepleContent({ reple }) {
   const [flag, setFlag] = useState(false);
   const [editFlag, setEditFlag] = useState(false);
@@ -57,14 +60,21 @@ export default function RepleContent({ reple }) {
       };
     }, [ref, handler]);
   }
+
+  const setTimeWhat = (a, b) => {
+    return a === b
+      ? moment(a).format("YYYY-MM-DD hh:mm") + "(New)"
+      : moment(b).format("YYYY-MM-DD hh:mm") + "(수정됨)";
+  };
   return (
     <div>
       <h6>
         <Avatar
           size="20"
           round={true}
-          src="http://www.gravatar.com/avatar/a16a38cdfe8b2cbd38e8a56ab93238d3"
-        />{" "}
+          src={`http://localhost:5000/${user.photoURL}`}
+        />
+        <p>{setTimeWhat(reple.createdAt, reple.updatedAt)}</p>
         {reple.author.displayName}
       </h6>
       {user.uid === reple.author.uid && (

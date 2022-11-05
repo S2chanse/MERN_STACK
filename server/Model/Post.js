@@ -1,4 +1,4 @@
-const { default: mongoose } = require('mongoose');
+const { default: mongoose } = require("mongoose");
 
 const postSchema = new mongoose.Schema(
   {
@@ -9,7 +9,7 @@ const postSchema = new mongoose.Schema(
     author: {
       //해당 타입 id를 넣으면, 그 다른 객체의 데이터를 모두 할당? 한다.=> fk같은 느낌
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
     repleNum: {
       type: Number,
@@ -17,10 +17,11 @@ const postSchema = new mongoose.Schema(
     },
   },
   {
-    collection: 'posts',
+    collection: "posts",
+    timestamps: true,
   }
 );
 
-const Post = mongoose.model('Post', postSchema);
+const Post = mongoose.model("Post", postSchema);
 
 module.exports = { Post };

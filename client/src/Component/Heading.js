@@ -8,6 +8,8 @@ export default function Heading() {
   const styleObj = {
     color: "white",
     textDecoration: "none",
+    marginRight: "10px",
+    cursor: "pointer",
   };
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
