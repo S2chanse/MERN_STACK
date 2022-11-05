@@ -1,18 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const multer = require('multer');
+const multer = require("multer");
 
-const { Post } = require('../Model/Post');
-const { Counter } = require('../Model/Counter');
-const { User } = require('../Model/User');
+const { Post } = require("../Model/Post");
+const { Counter } = require("../Model/Counter");
+const { User } = require("../Model/User");
 
-router.post('/submit', async (req, res) => {
+router.post("/submit", async (req, res) => {
   let temp = {
     title: req.body.title,
     content: req.body.content,
     image: req.body.image,
   };
-  Counter.findOne({ name: 'counter' })
+  Counter.findOne({ name: "counter" })
     .exec()
     .then((counter) => {
       temp.postNum = counter.postNum;
@@ -24,7 +24,7 @@ router.post('/submit', async (req, res) => {
           communityPost.save().then(() => {
             //Counter의 postNum을 증가
             Counter.updateOne(
-              { name: 'counter' },
+              { name: "counter" },
               { $inc: { postNum: 1 } }
             ).then(() => {
               res.status(200).json({ success: true });
@@ -37,7 +37,7 @@ router.post('/submit', async (req, res) => {
     });
 });
 
-router.post('/update', async (req, res) => {
+router.post("/update", async (req, res) => {
   let temp = req.body;
   Post.updateOne(
     { postNum: temp.postNum },
@@ -55,9 +55,19 @@ router.post('/update', async (req, res) => {
     });
 });
 
-router.post('/list', async (req, res) => {
-  Post.find()
-    .populate('author')
+router.post("/list", async (req, res) => {
+  let sort = {};
+  req.body.sort === "최신순" ? (sort.createdAt = -1) : (sort.repleNum = -1);
+  Post.find({
+    $or: [
+      { title: { $regex: req.body.searchTerm } },
+      { content: { $regex: req.body.searchTerm } },
+    ],
+  })
+    .populate("author")
+    .sort(sort)
+    .skip(req.body.skip)
+    .limit(5) //한번에 찾을 doc의 갯수 제한
     .exec()
     .then((doc) => {
       res.status(200).json({ success: true, postList: doc });
@@ -65,9 +75,9 @@ router.post('/list', async (req, res) => {
     .catch((err) => res.status(400));
 });
 
-router.post('/detail', async (req, res) => {
+router.post("/detail", async (req, res) => {
   Post.findOne({ postNum: Number(req.body.postNum) })
-    .populate('author')
+    .populate("author")
     .exec()
     .then((doc) => {
       res.status(200).json({ success: true, post: doc });
@@ -75,7 +85,7 @@ router.post('/detail', async (req, res) => {
     .catch((err) => res.status(400));
 });
 
-router.post('/delete', async (req, res) => {
+router.post("/delete", async (req, res) => {
   let reqBody = req.body;
   Post.deleteOne({ postNum: reqBody.postNum })
     .then((results) => {
@@ -88,16 +98,16 @@ router.post('/delete', async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'image/');
+    cb(null, "image/");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
-const upload = multer({ storage: storage }).single('file');
+const upload = multer({ storage: storage }).single("file");
 
-router.post('/img/upload', (req, res) => {
+router.post("/img/upload", (req, res) => {
   upload(req, res, (err) => {
     if (err) {
       res.status(400);
